@@ -31,10 +31,8 @@ let currentvalue = "%CHG"
 const fav = (x:string) => {
     const index = symbol.value.indexOf(x);
     if (index === -1) {
-        // Symbol not found in the array, add it
         symbol.value.push(x);
     } else {
-        // Symbol found in the array, remove it
         symbol.value.splice(index, 1);
     }
     localStorage.setItem('symbol', JSON.stringify(symbol.value));
