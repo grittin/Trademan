@@ -7,12 +7,10 @@
 <template>
   <div class="bg-[#161a1e]">
     <Header/>
-    <div class="mb-20 mx-auto place-content-center pb-4 px-4 lg:w-[95%] animate-fade">
+    <div class="mb-20 mx-9 pb-4 px-4 w-[95%]">
       <Trade/>
     </div>
-    <div class="mt-auto">
       <Footer/>
-    </div>
   </div>
 </template>
 

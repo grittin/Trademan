@@ -1,28 +1,114 @@
 import axios from "axios";
-import {callapi} from "./service";
+import { ref } from "vue";
+// import {callauthen} from "./authen";
+// import {callapi} from "./service";
 
-const loadallinformation = () => {
-    const loadallinformationRequest = {
-        WebMethod: "loadallinformation",
-        Data: "",
-        AuthenKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI5OC1ncml0dGluIiwiU2Vzc2lvbklkIjoiOCIsIlZlcmlmeTJGQSI6dHJ1ZSwiSXMxVGltZVRva2VuIjoiRmFsc2UiLCJuYmYiOjE3MDUwMjY0NzQsImV4cCI6MTcwNTExMjg3NCwiaWF0IjoxNzA1MDI2NDc0fQ.Tnl9q8I4lWevkCGccyFv1zn9tMxzAUmyYE0g26ZUGKg",
-    };
-    return callapi(loadallinformationRequest).then((res: any) =>{
-        return res
-    })
+let apiUrl = "https://demotrade.efintradeplus.com/efinTrade.TradeManAPI.DEV/api/webtrade/WebTradeRequest";
+let authenkey: any
+
+const authens = ref("");
+const callapi = async () => {
+    
+        if (!authenkey) {
+            if (apiUrl) {
+                const request = {
+                    WebMethod: "USERAUTHEN",
+                    Data: {
+                        UserId: "98-Grittin",
+                        Password: "1234",
+                        VersionCode: "1.0.0",
+                        Channel: "EFIN",
+                        TerminalId: "W",
+                        DeviceInfo: {
+                            LocalIp: "2C84DA2D52DD8C9A07CC6528936F1408OR",
+                            DeviceId: "84976624E3938404116D9EF75E534CAC",
+                            DeviceName: "ios",
+                            DeviceModel: "91E5595EDD7C378DF55BA163EF13F340",
+                            UserAgent: "Googlebot/2.1 (+http://www.google.com/bot.html)"
+                        }
+                    }
+                };
+
+                const res = await axios
+                    .post(apiUrl, request);
+                
+                    authenkey = res.data.AuthenInfo.AuthenKey;
+                    authens.value = authenkey;
+
+                    
+            }
+        }
+        return authenkey;
+    
 }
 
-const loadstockinformation = (Stock: string) => {
-    const loadstockinformationRequest = {
-        WebMethod: "loadstockinformation",
-        Data: {StockNumber: Stock,
-               TickerRow: 5},
-        AuthenKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI5OC1ncml0dGluIiwiU2Vzc2lvbklkIjoiOCIsIlZlcmlmeTJGQSI6dHJ1ZSwiSXMxVGltZVRva2VuIjoiRmFsc2UiLCJuYmYiOjE3MDUwMjY0NzQsImV4cCI6MTcwNTExMjg3NCwiaWF0IjoxNzA1MDI2NDc0fQ.Tnl9q8I4lWevkCGccyFv1zn9tMxzAUmyYE0g26ZUGKg",
-    };
-    return callapi(loadstockinformationRequest).then((res: any)=> {
-        return res
-    })
+const loadallinformation = async () => {
+    
+        await callapi();
+        const loadallinformationRequest = {
+            WebMethod: "loadallinformation",
+            Data: "",
+            AuthenKey: authens.value,
+        };
+
+        const res = await axios
+            .post(apiUrl, loadallinformationRequest);
+            return res.data;
+    
 }
+
+const loadstockinformation = async (Stock: string) => {
+    
+        await callapi();
+        const loadstockinformationRequest = {
+            WebMethod: "loadstockinformation",
+            Data: { StockNumber: Stock, 
+                    TickerRow: 1000 },
+            AuthenKey: authens.value,
+        };
+
+        const res = await axios
+            .post(apiUrl, loadstockinformationRequest);
+            return res.data;
+    
+}
+
+export { loadstockinformation, loadallinformation };
+
+
+
+
+// const loadallinformation = () => {
+   
+//     // const authenkey = callauthen();
+//     // console.log(authenkey);
+//     const loadallinformationRequest = {
+//         WebMethod: "loadallinformation",
+//         Data: "",
+//         AuthenKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI5OC1ncml0dGluIiwiU2Vzc2lvbklkIjoiMyIsIlZlcmlmeTJGQSI6dHJ1ZSwiSXMxVGltZVRva2VuIjoiRmFsc2UiLCJuYmYiOjE3MDU2MzA4MTgsImV4cCI6MTcwNTcxNzIxOCwiaWF0IjoxNzA1NjMwODE4fQ.IF_Qb0fPaVGew28iNb_OIf2m52HDU1PQF5ChYAy5634",
+//     };
+//     return callapi(loadallinformationRequest).then((res: any) =>{
+//         console.log(res);
+//         return res
+//     })
+// }
+
+// const loadstockinformation = (Stock: string) => {
+//     // const authenkey = callauthen();
+//     // console.log(authenkey);
+//     const loadstockinformationRequest = {
+//         WebMethod: "loadstockinformation",
+//         Data: {StockNumber: Stock,
+//                TickerRow: 5},
+//         AuthenKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI5OC1ncml0dGluIiwiU2Vzc2lvbklkIjoiMyIsIlZlcmlmeTJGQSI6dHJ1ZSwiSXMxVGltZVRva2VuIjoiRmFsc2UiLCJuYmYiOjE3MDU2MzA4MTgsImV4cCI6MTcwNTcxNzIxOCwiaWF0IjoxNzA1NjMwODE4fQ.IF_Qb0fPaVGew28iNb_OIf2m52HDU1PQF5ChYAy5634",
+        
+//     };
+//     return callapi(loadstockinformationRequest).then((res: any)=> {
+//         console.log(res);
+        
+//         return res
+//     })
+// }
 
 // const searchstockbysymbol = (symbol: string) => {
 //     const searchstockbysymbolRequest = {
@@ -102,5 +188,157 @@ const loadstockinformation = (Stock: string) => {
 //         console.error("Error:", error);
 //     }
 // };
+// const authens = ref("")
+// console.log(authens);
+// const callapi = async () => {
+//     if (apiUrl){
+//         const request = {
+//            WebMethod: "USERAUTHEN",
+//            Data: {
+//                UserId: "98-Grittin",
+//                Password: "1234",
+//                VersionCode: "1.0.0",
+//                Channel: "EFIN",
+//                TerminalId: "W",
+//                DeviceInfo: {
+//                    LocalIp: "2C84DA2D52DD8C9A07CC6528936F1408OR",
+//                    DeviceId: "84976624E3938404116D9EF75E534CAC",
+//                    DeviceName: "ios",
+//                    DeviceModel: "91E5595EDD7C378DF55BA163EF13F340",
+//                    UserAgent: "Googlebot/2.1 (+http://www.google.com/bot.html)"
+//                 }
+//             }
+//        };
+//         return await axios
+//             .post(apiUrl, request)
+//             .then((res: any) => {
+//                 const authenkey = res.data.AuthenInfo.AuthenKey
+//                                 // return res.data;
+                                
+//                             //   console.log(authenkey);
+                            
+//                   authens.value = authenkey
+                 
+                 
+                    
+//             })
+//             .catch ((error: any) => {
+//                 return error;
+//             })
+//         }
+// }
 
-export { loadstockinformation, loadallinformation, searchstockbysymbol};
+// let apiUrl = "https://demotrade.efintradeplus.com/efinTrade.TradeManAPI.DEV/api/webtrade/WebTradeRequest";
+// const loadallinformation = async () => {
+
+//     // const authenkey = callapi();
+//     // console.log(authenkey);
+//     const loadallinformationRequest = {
+//         WebMethod: "loadallinformation",
+//         Data: "",
+//         AuthenKey: authens,
+//     };
+//         return await axios 
+//         .post(apiUrl, loadallinformationRequest)
+//         .then((res: any) =>{
+//             console.log(res);
+
+//             return res.data
+//     })
+// }
+
+// const loadstockinformation = async (Stock: string) => {
+//     // const authenkey = callapi();
+//     // // console.log(authenkey);
+//     const loadstockinformationRequest = {
+//         WebMethod: "loadstockinformation",
+//         Data: {StockNumber: Stock,
+//                TickerRow: 5},
+//         AuthenKey: authens,
+        
+//     };
+//         return await axios 
+//         .post(apiUrl, loadstockinformationRequest)
+//         .then((res: any)=> {
+//             console.log(res);
+            
+//             return res.data
+//     })
+// }
+
+
+// export { loadstockinformation, loadallinformation};
+
+// const authens = ref("");
+
+// const callapi = async () => {
+//     try {
+//         if (apiUrl) {
+//             const request = {
+//                 WebMethod: "USERAUTHEN",
+//                 Data: {
+//                     UserId: "98-Grittin",
+//                     Password: "1234",
+//                     VersionCode: "1.0.0",
+//                     Channel: "EFIN",
+//                     TerminalId: "W",
+//                     DeviceInfo: {
+//                         LocalIp: "2C84DA2D52DD8C9A07CC6528936F1408OR",
+//                         DeviceId: "84976624E3938404116D9EF75E534CAC",
+//                         DeviceName: "ios",
+//                         DeviceModel: "91E5595EDD7C378DF55BA163EF13F340",
+//                         UserAgent: "Googlebot/2.1 (+http://www.google.com/bot.html)"
+//                     }
+//                 }
+//             };
+
+//             const response = await axios.post(apiUrl, request);
+//             const authenkey = response.data.AuthenInfo.AuthenKey;
+//             authens.value = authenkey;
+//             return authenkey;
+//         }
+//     } catch (error) {
+//         console.error("Error in callapi:", error.response ? error.response.data : error.message);
+//         throw error;
+//     }
+// }
+
+// let apiUrl = "https://demotrade.efintradeplus.com/efinTrade.TradeManAPI.DEV/api/webtrade/WebTradeRequest";
+
+// const loadallinformation = async () => {
+//     try {
+//         await callapi(); // Wait for authentication before making other requests
+//         const loadallinformationRequest = {
+//             WebMethod: "loadallinformation",
+//             Data: "",
+//             AuthenKey: authens.value, // Use authens.value
+//         };
+
+//         const response = await axios.post(apiUrl, loadallinformationRequest);
+//         console.log(response);
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error in loadallinformation:", error.response ? error.response.data : error.message);
+//         throw error;
+//     }
+// }
+
+// const loadstockinformation = async (Stock: string) => {
+//     try {
+//         await callapi(); // Wait for authentication before making other requests
+//         const loadstockinformationRequest = {
+//             WebMethod: "loadstockinformation",
+//             Data: { StockNumber: Stock, TickerRow: 5 },
+//             AuthenKey: authens.value, // Use authens.value
+//         };
+
+//         const response = await axios.post(apiUrl, loadstockinformationRequest);
+//         console.log(response);
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error in loadstockinformation:", error.response ? error.response.data : error.message);
+//         throw error;
+//     }
+// }
+
+// export { loadstockinformation, loadallinformation };
