@@ -1,17 +1,19 @@
-export const changetextcolor = (x:String, y:string, a:string, b:string) => {
-    let number1 = Number(x)
-    let number2 = Number(y)
-    let number3 = Number(a)
-    let number4 = Number(b)
-    if (number3 === number1) {
+export const changeTextColor = (mainValue?:String, compareValue?:string, Ceiling?:string, Floor?:string) => {
+    // let mainValueNumber = Number(mainValue)
+    // let compareValueNumber = Number(compareValue)
+    // let ceilingNumber = Number(Ceiling)
+    // let FloorNumberNumber = Number(Floor)
+    if(mainValue === "0.00"){
+        return 'text-warning'
+    }else if (Ceiling === mainValue) {
         return 'text-ceiling'
-    } else if (number4 === number1){
+    } else if (Floor === mainValue){
         return 'text-floor';
-    } else if (number1 === number2) {
+    } else if (mainValue === compareValue) {
         return 'text-warning';
-    } else if (number1 > number2) {
+    } else if (mainValue > compareValue) {
         return'text-primary';
-    } else if (number1 < number2) {
+    } else if (mainValue < compareValue) {
         return 'text-error';
     }
 }

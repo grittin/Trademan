@@ -157,3 +157,21 @@ export type TStockInfoStat ={
     IsFavorite: string,
     Flag: string,
 }
+
+export type TSectorInformation ={
+    OrderBookNumber: string,
+    SectorNumber: string,
+    SectorSymbol: string,
+    SectorFullName: string,
+    IndexPrior: string,
+    IndexHigh: string,
+    IndexHighChange: string,
+    IndexLow: string,
+    IndexLowChange: string,
+    IndexValue: string,
+    IndexValueChange: string,
+    IndexValueChangePct: string,
+    TotalValue: string,
+    TotalValueUnitFormat: string,
+    SectorType: string,
+}

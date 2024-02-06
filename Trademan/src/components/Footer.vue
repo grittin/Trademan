@@ -1,4 +1,5 @@
 <template>
+<div class="bg-[#161a1e]">
     <div class="container mx-auto text-white xl:px-44">
         <div class="border-t border-[#5f6672] border-opacity-25 py-2 md:mx-3">
             <div>
@@ -139,4 +140,5 @@
                 </div>
             </div>
         </div>
+    </div>
   </template>

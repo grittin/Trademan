@@ -1,17 +1,17 @@
-export const changebarcolor = (x:String, y:string, a:string, b:string) => {
-    let number1 = Number(x)
-    let number2 = Number(y)
-    let number3 = Number(a)
-    let number4 = Number(b)
-    if (number3 === number1) {
+export const changeBarColor = (mainValue:String, compareValue:string, Ceiling:string, Floor:string) => {
+    let mainValueNumber = Number(mainValue)
+    let compareValueNumber = Number(compareValue)
+    let ceilingNumber = Number(Ceiling)
+    let FloorNumberNumber = Number(Floor)
+    if (ceilingNumber === mainValueNumber) {
         return 'bg-ceiling'
-    } else if (number4 === number1){
+    } else if (FloorNumberNumber === mainValueNumber){
         return 'bg-floor';
-    } else if (number1 === number2) {
+    } else if (mainValueNumber === compareValueNumber) {
         return 'bg-warning';
-    } else if (number1 > number2) {
+    } else if (mainValueNumber > compareValueNumber) {
         return'bg-primary';
-    } else if (number1 < number2) {
+    } else if (mainValueNumber < compareValueNumber) {
         return 'bg-error';
     }
  }

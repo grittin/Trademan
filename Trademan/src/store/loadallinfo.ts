@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 
 export const useStore = defineStore('loadallinformation', () => {
-    const count = ref<any>(0)
-  
+    const stockInfo = ref<any>(0)
+    const dataStock = computed(() => stockInfo.value);
+
+    
     const setloadallinformation = (data: any) => {
-        count.value = data
+        stockInfo.value = data
     }
-  
-    return { count}
+    return {stockInfo}
   })

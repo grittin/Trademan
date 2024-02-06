@@ -1,16 +1,15 @@
 <script setup>
   import Header from './components/Header.vue'
-  import Trade from './components/Trade.vue'
+  import Trade from './page/Trade/Trade.vue'
   import Footer from './components/Footer.vue'
+
 </script>
 
 <template>
-  <div class="bg-[#161a1e]">
+  <div>
     <Header/>
-    <div class="mb-20 mx-9 pb-4 px-4 w-[95%]">
-      <Trade/>
-    </div>
-      <Footer/>
+      <router-view></router-view>
+    <Footer/>
   </div>
 </template>
 

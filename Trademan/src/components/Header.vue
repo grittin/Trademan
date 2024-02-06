@@ -1,34 +1,29 @@
 <script setup lang="ts">
 import logo from "@/assets/icon/logo.png";
 import simu from "@/assets/icon/simu.png";
-import  new_feature from "@/assets/icon/new_feature.png";
+import new_feature from "@/assets/icon/new_feature.png";
 </script>
 
 <template>
-    <div class="">
         <nav class="w-full relative justify-between bg-[#1e2025] flex border-0 border-[#e5e7eb]">
             <div className="container flex h-[55px]">
-            <ul className="flex gap-10 ml-auto  mr-auto justify-between text-white">
-                <li class="my-auto mt-1 cursor-pointer">
+            <ul className="flex gap-7 mx-auto justify-between text-white">
+                <li class="mt-1 cursor-pointer">
+                    <router-link to="/Market" 
+                    class="hover:text-amber-400">
                     <img :src="logo" class="w-36 h-12">
-                    <a
-                    href="#"
-                    className=""
-                    >  </a
+                    </router-link>
+                </li>
+                <li class="mt-[15px]">
+                    <router-link to="/Market" 
+                    class="hover:text-amber-400">
+                    Market</router-link
                     >
                 </li>
                 <li class="mt-[15px]">
-                    <a
-                    href="#"
-                    className=" hover:text-amber-400"
-                    >Market</a
-                    >
-                </li>
-                <li class="mt-[15px]">
-                    <a
-                    href="#"
-                    className="hover:text-amber-400"
-                    >Trade</a
+                    <router-link to="/Trade" 
+                    class="hover:text-amber-400">
+                    Trade</router-link
                     >
                 </li>
                 <li class="mt-[15px]">
@@ -96,5 +91,4 @@ import  new_feature from "@/assets/icon/new_feature.png";
             </ul>
             </div>
         </nav>
-    </div>
 </template>
